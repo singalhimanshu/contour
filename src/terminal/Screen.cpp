@@ -2048,6 +2048,61 @@ void Screen::renderImage(std::shared_ptr<Image const> const& _imageRef,
     moveCursorToColumn(_topLeft.column + _gridSize.width);
 }
 
+#if defined(GOOD_IMAGE_PROTOCOL) // {{{
+void Screen::uploadImage(string const& _name, ImageFormat _format, Size _imageSize, Image::Data&& _pixmap)
+{
+    imagePool_.link(_name, uploadImage(_format, _imageSize, move(_pixmap)));
+}
+
+void Screen::renderImage(std::string const& _name,
+                         Size _gridSize,
+                         Coordinate _imageOffset,
+                         Size _imageSize,
+                         ImageAlignment _alignmentPolicy,
+                         ImageResize _resizePolicy,
+                         bool _autoScroll,
+                         bool _requestStatus)
+{
+    auto const imageRef = imagePool_.findImageByName(_name);
+    auto const topLeft = cursorPosition();
+
+    if (imageRef)
+        renderImage(imageRef, topLeft, _gridSize,
+                    _imageOffset, _imageSize,
+                    _alignmentPolicy, _resizePolicy,
+                    _autoScroll);
+
+    if (_requestStatus)
+        reply("\033P{}r\033\\", imageRef != nullptr ? 1 : 0);
+}
+
+void Screen::releaseImage(std::string const& _name)
+{
+    imagePool_.unlink(_name);
+}
+
+void Screen::renderImage(ImageFormat _format,
+                         Size _imageSize,
+                         Image::Data&& _pixmap,
+                         Size _gridSize,
+                         ImageAlignment _alignmentPolicy,
+                         ImageResize _resizePolicy,
+                         bool _autoScroll)
+{
+    auto constexpr imageOffset = Coordinate{0, 0};
+    auto constexpr imageSize = Size{0, 0};
+
+    auto const topLeft = cursorPosition();
+    auto const imageRef = uploadImage(_format, _imageSize, std::move(_pixmap));
+
+    renderImage(imageRef, topLeft, _gridSize,
+                imageOffset, imageSize,
+                _alignmentPolicy,
+                _resizePolicy,
+                _autoScroll);
+}
+#endif // }}}
+
 void Screen::setWindowTitle(std::string const& _title)
 {
     windowTitle_ = _title;

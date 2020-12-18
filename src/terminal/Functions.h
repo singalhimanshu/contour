@@ -300,6 +300,12 @@ constexpr inline auto XTSMGRAPHICS= detail::CSI('?', 2, 4, std::nullopt, 'S', VT
 constexpr inline auto DECRQSS     = detail::DCS(std::nullopt, 0, 0, '$', 'q', VTType::VT420, "DECRQSS", "Request Status String");
 constexpr inline auto DECSIXEL    = detail::DCS(std::nullopt, 0, 3, std::nullopt, 'q', VTType::VT330, "DECSIXEL", "Sixel Graphics Image");
 
+// DCS: Good Image Protocol
+constexpr inline auto GIUPLOAD    = detail::DCS(std::nullopt, 0, 0, std::nullopt, 'u', VTType::VT525, "GIUPLOAD", "Uploads an image.");
+constexpr inline auto GIRENDER    = detail::DCS(std::nullopt, 0, 0, std::nullopt, 'r', VTType::VT525, "GIRENDER", "Renders an image.");
+constexpr inline auto GIDELETE    = detail::DCS(std::nullopt, 0, 0, std::nullopt, 'd', VTType::VT525, "GIDELETE", "Deletes an image.");
+constexpr inline auto GIONESHOT   = detail::DCS(std::nullopt, 0, 0, std::nullopt, 's', VTType::VT525, "GIONESHOT", "Uploads and renders an unnamed image.");
+
 // OSC
 constexpr inline auto SETTITLE      = detail::OSC(0, "SETINICON", "Change Window & Icon Title");
 constexpr inline auto SETICON       = detail::OSC(1, "SETWINICON", "Change Icon Title");
@@ -421,6 +427,10 @@ inline auto const& functions() noexcept
             // DCS
             DECRQSS,
             DECSIXEL,
+            GIUPLOAD,
+            GIRENDER,
+            GIDELETE,
+            GIONESHOT,
 
             // OSC
             SETICON,
