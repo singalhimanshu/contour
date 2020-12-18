@@ -10,6 +10,9 @@ option(LIBTERMINAL_LOG_RAW "Enables logging of raw VT sequences [default: ON]" O
 option(LIBTERMINAL_LOG_TRACE "Enables VT sequence tracing. [default: ON]" OFF)
 option(LIBTERMINAL_EXECUTION_PAR "Builds with parallel execution where possible [default: OFF]" OFF)
 
+# XXX Experimental!
+option(GOOD_IMAGE_PROTOCOL "Enables building with Good Image Protocol support [default: OFF]" OFF)
+
 if(MSVC)
     add_definitions(-DNOMINMAX)
 endif()
@@ -20,6 +23,7 @@ set(terminal_HEADERS
     Functions.h
     Image.h
     InputGenerator.h
+    MessageParser.h
     Parser.h
     Process.h
     pty/Pty.h
@@ -41,6 +45,7 @@ set(terminal_SOURCES
     Functions.cpp
     Image.cpp
     InputGenerator.cpp
+    MessageParser.cpp
     Parser.cpp
     Process.cpp
     Screen.cpp
@@ -78,6 +83,9 @@ endif()
 if(LIBTERMINAL_LOG_TRACE)
     target_compile_definitions(terminal PRIVATE LIBTERMINAL_LOG_TRACE=1)
 endif()
+if(GOOD_IMAGE_PROTOCOL)
+    target_compile_definitions(terminal PUBLIC GOOD_IMAGE_PROTOCOL=1)
+endif()
 
 # ----------------------------------------------------------------------------
 if(LIBTERMINAL_TESTING)
@@ -86,6 +94,7 @@ if(LIBTERMINAL_TESTING)
         test_main.cpp
 		Selector_test.cpp
         Functions_test.cpp
+        MessageParser_test.cpp
         Parser_test.cpp
         Screen_test.cpp
         Size_test.cpp

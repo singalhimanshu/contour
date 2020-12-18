@@ -20,14 +20,16 @@
 - [ ] UX: mouse wheel: if configured action was executed, don't forward mouse action to terminal. example: alt+wheel in vim
 - [ ] BUG: Text shaping on emoji presentation modifiers seem to sometimes get it wrong.
 
+### Good Image Protocol
+
+- [ ] Make sure Screen::Image does not need to know about the underlying image format. (only the frontend needs to know about the actual format in use, so it can *render* the pixmaps)
+
 ### Features to be added to 0.2.0 milestone
 
 - [ ] FEATURE: normal-mode cursor (that can be used for selection, basic vim movements)
-- [ ] contour: provide `--mono` (or alike) CLI flag to "just" provide a QOpenGLWindow for best performance,
-      lacking UI features as compromise.
-- [ ] Rethink an easily adaptable keyboard input protocol (CSI based)
+- [ ] FEATURE: [contour] provide `--mono` (or alike) CLI flag to "just" provide a QOpenGLWindow for best performance, lacking UI features as compromise.
+- [ ] FEATURE/SPEC: Rethink an easily adaptable keyboard input protocol (CSI based)
     - should support any key with modifier information (ctrl,alt,meta,SHIFT)
-- [ ] normal-mode cursor (that can be used for selection, basic vim movements)
 - [ ] UX: mouse wheel: if configured action was executed, don't forward mouse action to terminal. example: alt+wheel in vim
 - [ ] RENDERING: respect propotion of colored (emoji) glyph (y-offset / bearing)?
 - [ ] Evaluate Shell Integration proposals from: http://per.bothner.com/blog/2019/shell-integration-proposal/
